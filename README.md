@@ -67,9 +67,9 @@ bash ./scripts/atari_algo_runner.sh
 ```
 
 # Issues
-Good luck. Feel free to reach out if you want help. Below is the original SF documentation which explains the framework excellently. 
+Good luck. Feel free to reach out if you want help as I struggled at the start - feel free to raise an issue. However, the SF documentation is fantastic and explains the framework excellently. Start there first. Alex himself is highly responsive and will be able to answer any questions about the framework himself far better than I ever could. I can likely just help more with newbie questions.
 
-The one thing which confused me initially is the --ALGO flag in the config. This as far as I can tell is just a placeholder which COULD be implemented if needed but SF is purely for on-policy RF (primarily PPO). There is a way to activate V-trace in the config and thus make the model an IMPALA-PPO model but SF is not designed for off-policy algo's like DQN.
+The one thing which confused me initially is the --ALGO flag in the config. This as far as I can tell is just a placeholder which could be implemented if needed but SF is purely for on-policy RF (primarily PPO). There is a way to activate V-trace in the config and thus make the model an IMPALA-PPO model but SF is not designed for off-policy algo's like DQN. My recommendation would be to focus on PPO if like me you are still learning / at the start of your journey. 
 
 # Sample Factory
 
