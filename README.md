@@ -66,9 +66,10 @@ Then you can run the script to run the atari games (however you must change your
 bash ./scripts/atari_algo_runner.sh
 ```
 
-Good luck. Feel free to reach out if you want help. 
+# Issues
+Good luck. Feel free to reach out if you want help. Below is the original SF documentation which explains the framework excellently. 
 
-Below is the original SF documentation which explains the framework excellently. The one thing which confused me initially is the --ALGO flag in the config. This as far as I can tell is just a placeholder which COULD be implemented if needed but SF is purely for on-policy RF (primarily PPO). There is a way to activate V-trace in the config and thus make the model an IMPALA-PPO model but SF is not designed for off-policy algo's like DQN.
+The one thing which confused me initially is the --ALGO flag in the config. This as far as I can tell is just a placeholder which COULD be implemented if needed but SF is purely for on-policy RF (primarily PPO). There is a way to activate V-trace in the config and thus make the model an IMPALA-PPO model but SF is not designed for off-policy algo's like DQN.
 
 # Sample Factory
 
