@@ -53,8 +53,133 @@ def generate_model_card(
     repo_name = repo_id.split("/")[1]
 
     readme = f"""
+## About the Project\n
+This project is an attempt to maximise performance of high sample throughput APPO RL models in Atari environments in as carbon efficient a manner as possible using a single, not particularly high performance single machine. It is about demonstrating the generalisability of on-policy algorithms to create good performance quickly (by sacrificing sample efficiency) while also proving that this route to RL production is accessible to even hobbyists like me (I am a gastroenterologist not a computer scientist). \n
+In terms of throughput I am managing to reach throughputs of 2,500 - 3,000 across both policies using sample factory using two Quadro P2200's (not particularly powerful GPUs) each loaded up about 60% (3GB). Previously using the stable baselines 3 (sb3) implementation of PPO it would take about a week to train an atari agent to 100 million timesteps synchronously. By comparison the sample factory async implementation takes only just over 2 hours to achieve the same result. That is about 84 times faster with only typically a 21 watt burn per GPU. I am thus very grateful to Alex Petrenko and all the sample factory team for their work on this.
+
+## Project Aims\n
+This model as with all the others in the benchmarks was trained initially asynchronously un-seeded to 10 million steps for the purposes of setting a sample factory async baseline for this model on this environment but only 3/57 made it anywhere near sota performance. \n
+I then re-trained the models with 100 million timesteps- at this point 2 environments maxed out at sota performance (Pong and Freeway) with four approaching sota performance - (atlantis, boxing, tennis and fishingderby.) =6/57 near sota. \n
+The aim now is to try and reach state-of-the-art (SOTA) performance on a further block of atari environments using up to 1 billion training timesteps initially with appo. I will flag the models with SOTA when they reach at or near these levels. \n
+After this I will switch on V-Trace to see if the Impala variations perform any better with the same seed (I have seeded '1234')\n
+
+## About the Model\n
+The hyperparameters used in the model are described in my shell script on my fork of sample-factory: https://github.com/MattStammers/sample-factory. Given that https://huggingface.co/edbeeching has kindly shared his parameters, I saved time and energy by using many of his tuned hyperparameters to reduce carbon inefficiency:
+```
+hyperparameters =  {{
+  "help": false,
+  "algo": "APPO",
+  "env": "atari_asteroid",
+  "experiment": "atari_asteroid_APPO",
+  "train_dir": "./train_atari",
+  "restart_behavior": "restart",
+  "device": "gpu",
+  "seed": 1234,
+  "num_policies": 2,
+  "async_rl": true,
+  "serial_mode": false,
+  "batched_sampling": true,
+  "num_batches_to_accumulate": 2,
+  "worker_num_splits": 1,
+  "policy_workers_per_policy": 1,
+  "max_policy_lag": 1000,
+  "num_workers": 16,
+  "num_envs_per_worker": 2,
+  "batch_size": 1024,
+  "num_batches_per_epoch": 8,
+  "num_epochs": 4,
+  "rollout": 128,
+  "recurrence": 1,
+  "shuffle_minibatches": false,
+  "gamma": 0.99,
+  "reward_scale": 1.0,
+  "reward_clip": 1000.0,
+  "value_bootstrap": false,
+  "normalize_returns": true,
+  "exploration_loss_coeff": 0.0004677351413,
+  "value_loss_coeff": 0.5,
+  "kl_loss_coeff": 0.0,
+  "exploration_loss": "entropy",
+  "gae_lambda": 0.95,
+  "ppo_clip_ratio": 0.1,
+  "ppo_clip_value": 1.0,
+  "with_vtrace": false,
+  "vtrace_rho": 1.0,
+  "vtrace_c": 1.0,
+  "optimizer": "adam",
+  "adam_eps": 1e-05,
+  "adam_beta1": 0.9,
+  "adam_beta2": 0.999,
+  "max_grad_norm": 0.0,
+  "learning_rate": 0.0003033891184,
+  "lr_schedule": "linear_decay",
+  "lr_schedule_kl_threshold": 0.008,
+  "lr_adaptive_min": 1e-06,
+  "lr_adaptive_max": 0.01,
+  "obs_subtract_mean": 0.0,
+  "obs_scale": 255.0,
+  "normalize_input": true,
+  "normalize_input_keys": [
+    "obs"
+  ],
+  "decorrelate_experience_max_seconds": 0,
+  "decorrelate_envs_on_one_worker": true,
+  "actor_worker_gpus": [],
+  "set_workers_cpu_affinity": true,
+  "force_envs_single_thread": false,
+  "default_niceness": 0,
+  "log_to_file": true,
+  "experiment_summaries_interval": 3,
+  "flush_summaries_interval": 30,
+  "stats_avg": 100,
+  "summaries_use_frameskip": true,
+  "heartbeat_interval": 10,
+  "heartbeat_reporting_interval": 60,
+  "train_for_env_steps": 100000000,
+  "train_for_seconds": 10000000000,
+  "save_every_sec": 120,
+  "keep_checkpoints": 2,
+  "load_checkpoint_kind": "latest",
+  "save_milestones_sec": 1200,
+  "save_best_every_sec": 5,
+  "save_best_metric": "reward",
+  "save_best_after": 100000,
+  "benchmark": false,
+  "encoder_mlp_layers": [
+    512,
+    512
+  ],
+  "encoder_conv_architecture": "convnet_atari",
+  "encoder_conv_mlp_layers": [
+    512
+  ],
+  "use_rnn": false,
+  "rnn_size": 512,
+  "rnn_type": "gru",
+  "rnn_num_layers": 1,
+  "decoder_mlp_layers": [],
+  "nonlinearity": "relu",
+  "policy_initialization": "orthogonal",
+  "policy_init_gain": 1.0,
+  "actor_critic_share_weights": true,
+  "adaptive_stddev": false,
+  "continuous_tanh_scale": 0.0,
+  "initial_stddev": 1.0,
+  "use_env_info_cache": false,
+  "env_gpu_actions": false,
+  "env_gpu_observations": true,
+  "env_frameskip": 4,
+  "env_framestack": 4,
+  "pixel_format": "CHW"
+}}\n
+  ```
+\n
+    """  
+
+    readme += f"""
 A(n) **{algo}** model trained on the **{env}** environment.\n
-This model was trained using Sample-Factory 2.0: https://github.com/alex-petrenko/sample-factory.
+This model was trained using Sample-Factory 2.0: https://github.com/alex-petrenko/sample-factory. Sample factory is a 
+high throughput on-policy RL framework. I have been using 
 Documentation for how to use Sample-Factory can be found at https://www.samplefactory.dev/\n\n
 ## Downloading the model\n
 After installing Sample-Factory, download the model with:
