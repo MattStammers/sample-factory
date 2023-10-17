@@ -10,6 +10,35 @@
 <!-- [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/wmFrank/sample-factory/master.svg)](https://results.pre-commit.ci/latest/github/wmFrank/sample-factory/master)-->
 <!-- [![wakatime](https://wakatime.com/badge/github/alex-petrenko/sample-factory.svg)](https://wakatime.com/badge/github/alex-petrenko/sample-factory)-->
 
+# SOTA Quest
+
+This is an attempt by a hobbyist working in a resource-constrained context to create state of the art (SOTA) reinforcement learning models using sample factory. An excellent open source framework developed by Alex Petrenko. In essence it allows you to squeeze maximal juice out of your reinforcement learning (RL) hardware. Thus, it is highly valuable to someone like me who doesn't have access to a high-performance compute cluster but does have access to some GPU's.
+
+# Understanding Key Concepts
+
+PPO or proximal policy optimisation is a state of the art RL algorithm that looks to build on prior on-policy algorithms like reinforce by adding something called a clip-function. This helps to prevent too-big (destructive) policy updates from occuring which hampered prior algorithms and makes the algorithm very generally useful in a wide variety of settings. PPO is not the 'best' algorithm currently available (see MuZero, Agent 57 and Go-Explore for better examples) but it is very powerful and accessible to hobbyists which is why huggingface have focused on it. 
+
+PPO is not very sample efficient in that it requires a lot of examples to learn from. This is why Alex created Sample Factory to try and overcome some of the limitations inherent in more accessible implementations such as SB3 and cleanRL. I am one of the benficiaires of this effort. 
+
+# Objectives of Project
+
+The aim is to reach SOTA performance in as many environments as I can and learn a lot about RL and particularly on-policy algorithms in the process. 
+
+I have started with the Atari 57 environments as they provide a canonical baseline which is both well documented and also express a very general list of capabilities: https://paperswithcode.com/task/atari-games. The big companies are probably starting to move away from these now because they are largely considered 'solved' but there are still some games such as 'Venture' and 'Tutankham' who have been more generally ignored. Additionally games like 'Solaris' and 'Breakout' cannot be considered 'solved' as even SOTA algorithms obtain relatively meagre scores on these games. The best algorithms can only clear the Breakout board twice and then tend to get stuck in loops - a fact that is typically ignored.
+
+# Progress So Far
+
+So far I have SOTA completed two of the easier Atari Environments:
+- https://huggingface.co/MattStammers/appo-atari_freeway-sota
+- https://huggingface.co/MattStammers/appo-atari_pong-sota
+
+Four environments are approaching SOTA performance:
+- https://huggingface.co/MattStammers/appo-atari_tennis-approaching_sota
+- https://huggingface.co/MattStammers/appo-atari_fishingderby-approaching_sota
+- https://huggingface.co/MattStammers/appo-atari_atlantis-approaching_sota
+- https://huggingface.co/MattStammers/appo-atari_boxing-approaching_sota
+
+These environments should be considered the generally easier ones to solve as evidenced by the timelines of the papers with code. I will not be able to sota them all (no algorithm can) but I should be able to prove that even a hobbyist can 'do' these things and make significant headway in their spare time. The aim is to achieve at least near SOTA results in at least 25% of the environments by the end of this year. This simply wouldn't be possible without sample-factory and the high performance it brings to the experiments. 
 
 # Sample Factory
 
