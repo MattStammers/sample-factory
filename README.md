@@ -40,6 +40,36 @@ Four environments are approaching SOTA performance:
 
 These environments should be considered the generally easier ones to solve as evidenced by the timelines of the papers with code. I will not be able to sota them all (no algorithm can) but I should be able to prove that even a hobbyist can 'do' these things and make significant headway in their spare time. The aim is to achieve at least near SOTA results in at least 25% of the environments by the end of this year. This simply wouldn't be possible without sample-factory and the high performance it brings to the experiments. 
 
+# Usage Notes
+
+To use this version of sample factory you will need to do the following in order:
+
+```sh
+git clone https://github.com/MattStammers/sample-factory-sotaquest.git /
+cd sample-factory-sotaquest  /
+pip install pipenv /
+pipenv --python={python version} /
+pipenv shell /
+pip install --upgrade setuptools pip wheel /
+pip install -e . /
+```
+
+You may also need to run the below or a variant of it depending on your GPU setup - making sure the CUDA versions match exactly
+
+```sh
+pip install nvidia-cuda-runtime-cu11 --index-url https://pypi.ngc.nvidia.com --upgrade --force-reinstall
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118 --upgrade --force-reinstall
+```
+
+Then you can run the script to run the atari games (however you must change your huggingface name and load the CLI credentials for this and WandB first or the models will not push to the hub):
+```sh
+bash ./scripts/atari_algo_runner.sh
+```
+
+Good luck. Feel free to reach out if you want help. 
+
+Below is the original SF documentation which explains the framework excellently. The one thing which confused me initially is the --ALGO flag in the config. This as far as I can tell is just a placeholder which COULD be implemented if needed but SF is purely for on-policy RF (primarily PPO). There is a way to activate V-trace in the config and thus make the model an IMPALA-PPO model but SF is not designed for off-policy algo's like DQN.
+
 # Sample Factory
 
 High-throughput reinforcement learning codebase. Version 2.0.0 is out! 🤗
