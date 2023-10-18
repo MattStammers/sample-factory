@@ -14,6 +14,9 @@
 
 This is an attempt by a hobbyist working in a resource-constrained context to create state of the art (SOTA) reinforcement learning models using sample factory. An excellent open source framework developed by Alex Petrenko. In essence it allows you to squeeze maximal juice out of your reinforcement learning (RL) hardware. Thus, it is highly valuable to someone like me who doesn't have access to a high-performance compute cluster but does have access to some GPU's.
 
+SOTA Quest Logo:
+![RDS Atari Bot](https://github.com/MattStammers/sample-factory-sotaquest/blob/master/scripts/RDS%20Atari%20Bot.jpg)
+
 # Understanding Key Concepts
 
 PPO or proximal policy optimisation is a state of the art RL algorithm that looks to build on prior on-policy algorithms like reinforce by adding something called a clip-function. This helps to prevent too-big (destructive) policy updates from occuring which hampered prior algorithms and makes the algorithm very generally useful in a wide variety of settings. PPO is not the 'best' algorithm currently available (see MuZero, Agent 57 and Go-Explore for better examples) but it is very powerful and accessible to hobbyists which is why huggingface have focused on it. 
